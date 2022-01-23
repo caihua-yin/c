@@ -42,11 +42,10 @@ int roman2int(const char *c)
 {
     // The intermediate result can be negative, e.g. IV
     short result = 0;
-    unsigned short n = 0 ;
-    unsigned short next = 0;
+    short n = 0 ;
+    short next = 0;
     while (*c != '\0')
     {
-        // Optimize this line to be n = next;
         n = char2Roman(*c);
 
         // Handle invalid case
@@ -56,10 +55,15 @@ int roman2int(const char *c)
         if (*(c+1) != '\0')
         {
             next = char2Roman(*(c+1));
-            if (n < next)
-                result -= n;
+            if (n >= next)
+                result += n;
+			else
+				result -= n;
         }
-        result += n;
+		else
+		{
+			result += n;
+		}
 
         // Advance c
         c++;
