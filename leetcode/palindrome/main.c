@@ -27,14 +27,45 @@ int isPalindrome(int d)
     return 1;
 }
 
+// Return 0 if false, 1 if true
+int isPalindrome2(int d)
+{
+    int high = d;
+    int low = 0;
+
+    if (high < 0)
+        return 0;
+
+    // For the case a positive number ending with 0
+    if(high > 0 && high % 10 == 0)
+        return 0;
+
+    while (high > low)
+    {
+        low = low * 10 + high % 10;
+
+        // For the case d has even number of digits
+        if (high == low)
+            break;
+
+        high = high / 10;
+    }
+
+    if(high == low)
+        return 1;
+    else
+        return 0;
+}
+
 int main()
 {
-    printf("%d: %d\n", 0, isPalindrome(0));
-    printf("%d: %d\n", 1, isPalindrome(1));
-    printf("%d: %d\n", 10, isPalindrome(10));
-    printf("%d: %d\n", 101, isPalindrome(101));
-    printf("%d: %d\n", 11223, isPalindrome(11223));
-    printf("%d: %d\n", 112233, isPalindrome(112233));
-    printf("%d: %d\n", 112211, isPalindrome(112211));
+    printf("%d - %d : %d\n", 0, isPalindrome(-10), isPalindrome2(-10));
+    printf("%d - %d : %d\n", 0, isPalindrome(0), isPalindrome2(0));
+    printf("%d - %d : %d\n", 1, isPalindrome(1), isPalindrome2(1));
+    printf("%d - %d : %d\n", 10, isPalindrome(10), isPalindrome2(10));
+    printf("%d - %d : %d\n", 101, isPalindrome(101), isPalindrome2(101));
+    printf("%d - %d : %d\n", 11223, isPalindrome(11223), isPalindrome2(11223));
+    printf("%d - %d : %d\n", 112233, isPalindrome(112233), isPalindrome2(112233));
+    printf("%d - %d : %d\n", 112211, isPalindrome(112211), isPalindrome2(112211));
     return 0;
 }
