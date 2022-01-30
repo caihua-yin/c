@@ -41,15 +41,19 @@ struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2)
     }
 
     if (list1)
+    {
         if (tmp != NULL)
 			tmp->next = list1;
 		else
 			tmp = result = list1;
+    }
     if (list2)
+    {
 		if (tmp != NULL)
 			tmp->next = list2;
 		else
 			tmp = result = list2;
+    }
 
     return result;
 }
