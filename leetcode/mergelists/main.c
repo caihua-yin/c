@@ -8,7 +8,7 @@ struct ListNode {
 
 struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2)
 {
-    struct ListNode *result, *tmp;
+    struct ListNode *result = NULL, *tmp = NULL;
     while (list1 && list2)
     {
         if (list1->val >= list2->val)
@@ -41,9 +41,15 @@ struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2)
     }
 
     if (list1)
-        tmp->next = list1;
+        if (tmp != NULL)
+			tmp->next = list1;
+		else
+			tmp = result = list1;
     if (list2)
-        tmp->next = list2;
+		if (tmp != NULL)
+			tmp->next = list2;
+		else
+			tmp = result = list2;
 
     return result;
 }
@@ -86,6 +92,7 @@ int main()
 
     list1->next->next = malloc(sizeof(struct ListNode));
     list1->next->next->val = 4;
+	list1->next->next->next = NULL;
 
     printf("list1: ");
     printList(list1);
@@ -99,6 +106,7 @@ int main()
 
     list2->next->next = malloc(sizeof(struct ListNode));
     list2->next->next->val = 4;
+	list2->next->next->next = NULL;
 
     printf("list2: ");
     printList(list2);
