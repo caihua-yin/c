@@ -1,3 +1,6 @@
 [submodule "hashmap.c"]
 	path = hashmap.c
 	url = git@github.com:caihua-yin/hashmap.c.git
+[submodule "list"]
+	path = list
+	url = git@github.com:caihua-yin/list.git
