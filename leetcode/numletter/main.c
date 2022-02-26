@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-int number2letter(char* numstr, char** result)
+int number2letter(char* numstr, char*** result)
 {
     int num;
     unsigned int i, j, k, nletter, inputsize = 0, outputsize = 0;
@@ -67,7 +67,7 @@ int number2letter(char* numstr, char** result)
         outputsize = 0;
     }
     
-    result = input;
+    *result = input;
     return inputsize;
 }
 
@@ -76,7 +76,7 @@ int main()
     char input[] = "23";
     int i;
     char** result = NULL;
-    int size = number2letter(input, result);
+    int size = number2letter(input, &result);
     for (i = 0; i < size; i++)
     {
          printf("%s ", result[i]);
