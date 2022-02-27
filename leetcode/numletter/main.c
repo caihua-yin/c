@@ -201,9 +201,8 @@ char **letterCombinationsRecur(char *digits, int* returnSize)
         digitsLeft = malloc(2 * sizeof(char));
         digitsLeft[0] = digits[0];
         digitsLeft[1] = '\0';
-        digitsRight = malloc((strlen(digits) - 1) * sizeof(char));
+        digitsRight = malloc(strlen(digits) * sizeof(char));
         strcpy(digitsRight, digits+1);
-        free(digits);
         // Get the result for digitsLeft and digitsRight
         resultLeft = letterCombinationsRecur(digitsLeft, &sizeLeft);
         resultRight = letterCombinationsRecur(digitsRight, &sizeRight);
@@ -217,10 +216,13 @@ char **letterCombinationsRecur(char *digits, int* returnSize)
                 result[i * sizeRight + j] = malloc(strlen(resultLeft[i]) + strlen(resultRight[j]) + 1);
                 strcpy(result[i * sizeRight + j], resultLeft[i]);
                 strcat(result[i * sizeRight + j], resultRight[j]);
-                free(resultRight[j]);
             }
             free(resultLeft[i]);
         }
+		for (j = 0; j < sizeRight; j++)
+			free(resultRight[j]);
+		free(resultLeft);
+		free(resultRight);
         free(digitsLeft);
         free(digitsRight);
         return result;
@@ -247,6 +249,10 @@ int main()
     freeStrArr(result, size);
 
     size = number2letter("2345", &result);
+    printfStrArr(result, size);
+    freeStrArr(result, size);
+    
+	result = letterCombinationsRecur("2345", &size);
     printfStrArr(result, size);
     freeStrArr(result, size);
     return 0;
