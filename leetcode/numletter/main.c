@@ -162,6 +162,71 @@ char **letterCombinations(char *digits, int* returnSize)
     return input;
 }
 
+char **letterCombinationsRecur(char *digits, int* returnSize)
+{
+    int num, nletter, i, j;
+    char *digitsLeft, *digitsRight;
+    char **result, **resultLeft, **resultRight;
+    int sizeLeft, sizeRight;
+    char numletters[8][5] = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+    // Handle invalid case
+    if (strlen(digits) < 1)
+    {
+        *returnSize = 0;
+        return NULL;
+    }
+    else if (strlen(digits) == 1)
+    {
+        num = digits[0] - '0';
+        if (num < 2 || num > 9)
+        {
+            printf("Invalid input!");
+            *returnSize = 0;
+            return NULL;
+        }
+        *returnSize = nletter = strlen(numletters[num - 2]);
+        result = malloc(nletter * sizeof(char*));
+        for (i = 0; i < nletter; i++)
+        {
+            result[i] = malloc(2 * sizeof(char));
+            result[i][0] = numletters[num - 2][i];
+            result[i][1] = '\0';
+        }
+        return result;
+    }
+    else // strlen(digits) > 1
+    {
+        // Split digits as digits[0] and digits[1...]
+        digitsLeft = malloc(2 * sizeof(char));
+        digitsLeft[0] = digits[0];
+        digitsLeft[1] = '\0';
+        digitsRight = malloc((strlen(digits) - 1) * sizeof(char));
+        strcpy(digitsRight, digits+1);
+        free(digits);
+        // Get the result for digitsLeft and digitsRight
+        resultLeft = letterCombinationsRecur(digitsLeft, &sizeLeft);
+        resultRight = letterCombinationsRecur(digitsRight, &sizeRight);
+        // Combine and return the result of digitsLeft and digitsRight, then return
+        *returnSize = sizeLeft * sizeRight;
+        result =  malloc(*returnSize * sizeof(char*));
+        for (i = 0; i < sizeLeft; i++)
+        {
+            for (j = 0; j < sizeRight; j++)
+            {
+                result[i * sizeRight + j] = malloc(strlen(resultLeft[i]) + strlen(resultRight[j]) + 1);
+                strcpy(result[i * sizeRight + j], resultLeft[i]);
+                strcat(result[i * sizeRight + j], resultRight[j]);
+                free(resultRight[j]);
+            }
+            free(resultLeft[i]);
+        }
+        free(digitsLeft);
+        free(digitsRight);
+        return result;
+    }
+}
+
 int main()
 {
     char** result = NULL;
@@ -170,6 +235,10 @@ int main()
     freeStrArr(result, size);
 
     result = letterCombinations(NULL, &size);
+    printfStrArr(result, size);
+    freeStrArr(result, size);
+
+    result = letterCombinationsRecur("23", &size);
     printfStrArr(result, size);
     freeStrArr(result, size);
 
